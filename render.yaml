@@ -1,10 +1,9 @@
 services:
   - type: web
     name: agri-dashboard-backend
-    env: python
+    env: docker
     plan: free
     branch: main
     repo: https://github.com/Akanscode/agri-dashboard
-    buildCommand: pip install -r backend/requirements.txt
-    startCommand: bash backend/start.sh
+    dockerfilePath: backend/Dockerfile
     autoDeploy: true
