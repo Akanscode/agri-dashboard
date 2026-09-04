@@ -4,9 +4,11 @@ WORKDIR /app
 # Install system deps for pandas/statsmodels
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    libatlas-base-dev \
+    libopenblas-dev \
+    liblapack-dev \
     gfortran \
     wget \
+    pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
 COPY backend/requirements.txt ./requirements.txt
