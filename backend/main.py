@@ -2,13 +2,17 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
 import importlib
+import os
 
 
 app = FastAPI(title="Nigeria Agri Forecasting API (light)")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=[
+        "http://localhost:3000",
+        os.getenv("FRONTEND_URL", "https://agri-dashboard-frontend.onrender.com"),
+    ],
     allow_methods=["*"],
     allow_headers=["*"],
 )

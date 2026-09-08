@@ -7,3 +7,17 @@ services:
     repo: https://github.com/Akanscode/agri-dashboard
     dockerfilePath: backend/Dockerfile
     autoDeploy: true
+
+  - type: web
+    name: agri-dashboard-frontend
+    env: node
+    plan: free
+    branch: main
+    repo: https://github.com/Akanscode/agri-dashboard
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    startCommand: npm run start
+    autoDeploy: true
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        value: https://agri-dashboard-3ijl.onrender.com
