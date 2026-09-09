@@ -13,6 +13,7 @@ app.add_middleware(
         "http://localhost:3000",
         os.getenv("FRONTEND_URL", "https://agri-dashboard-frontend.onrender.com"),
     ],
+    allow_origin_regex=r"https://.*\.onrender\.com",
     allow_methods=["*"],
     allow_headers=["*"],
 )
