@@ -4,6 +4,8 @@ import { getForecast, getAllocation } from "@/app/lib/api/api";
 import StatCard from "@/components/ui/StatCard";
 import PriceChartClient from "@/components/PriceChartClient";
 
+export const dynamic = "force-dynamic";
+
 export default async function Dashboard() {
   const forecast = await getForecast("Maize (white)", "Ibadan");
   const allocation = await getAllocation();

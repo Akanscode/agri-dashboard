@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { Metadata } from "next";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_BASE = (process.env.NEXT_PUBLIC_API_URL || "https://agri-dashboard-3ijl.onrender.com").replace(/\/$/, "");
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Market Comparison",

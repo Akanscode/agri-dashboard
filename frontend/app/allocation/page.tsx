@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import { getAllocation } from "@/app/lib/api/api";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Optimized Allocation",
   description: "View optimized allocation of supply across markets",
