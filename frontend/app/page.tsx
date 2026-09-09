@@ -7,8 +7,10 @@ import PriceChartClient from "@/components/PriceChartClient";
 export const dynamic = "force-dynamic";
 
 export default async function Dashboard() {
-  const forecast = await getForecast("Maize (white)", "Ibadan");
-  const allocation = await getAllocation();
+  const [forecast, allocation] = await Promise.all([
+    getForecast("Maize (white)", "Ibadan"),
+    getAllocation(),
+  ]);
 
   const currentPrice = forecast.history.at(-1)?.price || 0;
   const priceChange = forecast.forecasted_price - currentPrice;
@@ -17,7 +19,7 @@ export default async function Dashboard() {
   return (
     <main className="flex-1 min-h-screen bg-parchment">
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-gray-50 to-gray-100 text-parchment  shadow-lg">
+      <div className="bg-linear-to-r from-gray-50 to-gray-100 text-parchment shadow-lg">
         <div className="p-8">
           <div className="max-w-6xl mx-auto">
             <div className="flex items-center justify-between mb-2">
@@ -92,7 +94,7 @@ export default async function Dashboard() {
         {/* Optimization Section */}
         <section>
           <div className="bg-gray-100  rounded-lg shadow-classic overflow-hidden">
-            <div className="bg-gradient-to-r from-accent/10 to-accent/5  p-6">
+            <div className="bg-linear-to-r from-accent/10 to-accent/5 p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="font-serif text-2xl font-bold text-green-800 mb-2">
