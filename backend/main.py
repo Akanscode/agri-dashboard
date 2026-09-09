@@ -36,9 +36,6 @@ def get_forecast(commodity: str = "Maize (white)", market: str = "Ibadan"):
         # try to load sample dataframe from data folder if available
         BASE_DIR = Path(__file__).resolve().parent
         df_path = BASE_DIR / "data" / "wfp_food_prices_nga.csv"
-        if not df_path.exists():
-            raise FileNotFoundError("data file not found")
-
         df = forecasting.load_dataframe(df_path)
         series = forecasting.load_clean_series(df, commodity, market, unit="100 KG")
         if len(series) < 30:
@@ -79,8 +76,6 @@ def get_commodities():
         forecasting = importlib.import_module("backend.src.forecasting")
         BASE_DIR = Path(__file__).resolve().parent
         df_path = BASE_DIR / "data" / "wfp_food_prices_nga.csv"
-        if not df_path.exists():
-            return []
         df = forecasting.load_dataframe(df_path)
         return sorted(df["commodity"].unique().tolist())
     except Exception:
@@ -93,8 +88,6 @@ def get_markets(commodity: str = "Maize"):
         forecasting = importlib.import_module("backend.src.forecasting")
         BASE_DIR = Path(__file__).resolve().parent
         df_path = BASE_DIR / "data" / "wfp_food_prices_nga.csv"
-        if not df_path.exists():
-            return []
         df = forecasting.load_dataframe(df_path)
         return sorted(df[df["commodity"] == commodity]["market"].unique().tolist())
     except Exception:
