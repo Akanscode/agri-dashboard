@@ -11,9 +11,21 @@ export const metadata: Metadata = {
 };
 
 async function fetchMarkets(commodity = "Maize (white)") {
-  const res = await fetch(`${API_BASE}/markets?commodity=${encodeURIComponent(commodity)}`, { cache: "no-store" });
-  if (!res.ok) return [];
-  return res.json();
+  try {
+    const res = await fetch(
+      `${API_BASE}/markets?commodity=${encodeURIComponent(commodity)}`,
+      { cache: "no-store" }
+    );
+    if (!res.ok) return [];
+
+    const markets: unknown = await res.json();
+    return Array.isArray(markets) && markets.every((market) => typeof market === "string")
+      ? markets
+      : [];
+  } catch (error) {
+    console.error("Unable to load markets:", error);
+    return [];
+  }
 }
 
 export default async function MarketsPage() {
@@ -80,7 +92,7 @@ export default async function MarketsPage() {
               <span>💡</span> How to Use
             </h3>
             <p className="text-muted mb-3">
-              Click on any market to view detailed price forecasts and historical trends for the selected location. The dashboard will show the current price, next month's forecast, and model accuracy metrics.
+              Click on any market to view detailed price forecasts and historical trends for the selected location. The dashboard will show the current price, next month&apos;s forecast, and model accuracy metrics.
             </p>
             <p className="text-sm text-muted/70">
               All forecasts are generated using ARIMA time-series models trained on historical WFP price data.
