@@ -34,7 +34,7 @@ export default async function MarketsPage() {
   return (
     <main className="flex-1 min-h-screen bg-parchment">
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-navy to-navy-light text-parchment border-b border-navy-light/20 shadow-lg">
+      <div className="bg-linear-to-r from-navy to-navy-light text-parchment border-b border-navy-light/20 shadow-lg">
         <div className="p-8">
           <div className="max-w-6xl mx-auto">
             <h1 className="font-serif text-4xl font-bold text-parchment mb-2">
