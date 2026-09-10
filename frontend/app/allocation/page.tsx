@@ -16,7 +16,7 @@ export default async function AllocationPage() {
   return (
     <main className="flex-1 min-h-screen bg-parchment">
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-navy to-navy-light text-parchment border-b border-navy-light/20 shadow-lg">
+      <div className="bg-linear-to-r from-navy to-navy-light text-parchment border-b border-navy-light/20 shadow-lg">
         <div className="p-8">
           <div className="max-w-6xl mx-auto">
             <h1 className="font-serif text-4xl font-bold text-parchment mb-2">
@@ -34,7 +34,7 @@ export default async function AllocationPage() {
         {/* Summary Stats */}
         <section className="mb-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-gradient-to-br from-cream to-white border border-border rounded-lg shadow-lg p-6 group hover:shadow-xl transition-shadow">
+            <div className="bg-linear-to-br from-cream to-white border border-border rounded-lg shadow-lg p-6 group hover:shadow-xl transition-shadow">
               <p className="text-xs uppercase tracking-widest text-muted font-semibold mb-4">
                 Total Net Value
               </p>
@@ -44,7 +44,7 @@ export default async function AllocationPage() {
               <div className="mt-4 pt-4 border-t border-border/40" />
             </div>
 
-            <div className="bg-gradient-to-br from-cream to-white border border-border rounded-lg shadow-lg p-6 group hover:shadow-xl transition-shadow">
+            <div className="bg-linear-to-br from-cream to-white border border-border rounded-lg shadow-lg p-6 group hover:shadow-xl transition-shadow">
               <p className="text-xs uppercase tracking-widest text-muted font-semibold mb-4">
                 Total Units
               </p>
@@ -54,7 +54,7 @@ export default async function AllocationPage() {
               <div className="mt-4 pt-4 border-t border-border/40" />
             </div>
 
-            <div className="bg-gradient-to-br from-cream to-white border border-border rounded-lg shadow-lg p-6 group hover:shadow-xl transition-shadow">
+            <div className="bg-linear-to-br from-cream to-white border border-border rounded-lg shadow-lg p-6 group hover:shadow-xl transition-shadow">
               <p className="text-xs uppercase tracking-widest text-muted font-semibold mb-4">
                 Avg Net Value/Unit
               </p>
@@ -69,7 +69,7 @@ export default async function AllocationPage() {
         {/* Allocation Breakdown */}
         <section>
           <div className="bg-cream border border-border rounded-lg shadow-classic overflow-hidden">
-            <div className="bg-gradient-to-r from-accent/10 to-accent/5 border-b border-border p-6">
+            <div className="bg-linear-to-r from-accent/10 to-accent/5 border-b border-border p-6">
               <h2 className="font-serif text-2xl font-bold text-navy">
                 Market-by-Market Breakdown
               </h2>
