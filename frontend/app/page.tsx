@@ -7,10 +7,38 @@ import PriceChartClient from "@/components/PriceChartClient";
 export const dynamic = "force-dynamic";
 
 export default async function Dashboard() {
-  const [forecast, allocation] = await Promise.all([
-    getForecast("Maize (white)", "Ibadan"),
-    getAllocation(),
-  ]);
+  let forecast: Awaited<ReturnType<typeof getForecast>>;
+  let allocation: Awaited<ReturnType<typeof getAllocation>>;
+
+  try {
+    [forecast, allocation] = await Promise.all([
+      getForecast("Maize (white)", "Ibadan"),
+      getAllocation(),
+    ]);
+  } catch {
+    return (
+      <main className="flex min-h-screen flex-1 items-center justify-center bg-parchment p-8">
+        <section className="max-w-xl rounded-lg border border-border bg-cream p-8 text-center shadow-classic">
+          <h1 className="font-serif text-3xl font-bold text-navy">Live data is unavailable</h1>
+          <p className="mt-3 text-muted">
+            The forecasting service may be waking up. Refresh this page in a moment to load the
+            latest verified market data.
+          </p>
+        </section>
+      </main>
+    );
+  }
+
+  return <DashboardContent forecast={forecast} allocation={allocation} />;
+}
+
+function DashboardContent({
+  forecast,
+  allocation,
+}: {
+  forecast: Awaited<ReturnType<typeof getForecast>>;
+  allocation: Awaited<ReturnType<typeof getAllocation>>;
+}) {
 
   const currentPrice = forecast.history.at(-1)?.price || 0;
   const priceChange = forecast.forecasted_price - currentPrice;
