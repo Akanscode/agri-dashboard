@@ -17,7 +17,7 @@ function forecastFallback(commodity: string, market: string): ForecastResponse {
     history: [
       { date: "2024-01-31", price: 25000 },
       { date: "2024-02-29", price: 25200 },
-      { date: "2024-03-31", price: 25105 },
+      { date: "2024-03-31", price: 26000 },
     ],
     forecasted_price: 26000,
     metrics: {
@@ -33,7 +33,7 @@ function allocationFallback(): AllocationResponse {
   return {
     allocation: { Ibadan: 40, Lagos: 35, Dawanau: 25 },
     total_net_value: 2310403.25,
-    net_value_per_unit: { Ibadan: 26000, Lagos: 24500, Dawanau: 22236 },
+    net_value_per_unit: { Ibadan: 25200, Lagos: 22400, Dawanau: 20736.13 },
   };
 }
 
