@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
 import importlib
 import os
+from functools import lru_cache
 
 
 app = FastAPI(title="Nigeria Agri Forecasting API (light)")
@@ -24,31 +25,32 @@ def root():
     return {"message": "Welcome to the Nigeria Agri Forecasting API (light)"}
 
 
+@lru_cache(maxsize=32)
+def _calculate_forecast(commodity: str, market: str):
+    forecasting = importlib.import_module("backend.src.forecasting")
+    base_dir = Path(__file__).resolve().parent
+    data_path = base_dir / "data" / "wfp_food_prices_nga.csv"
+    dataframe = forecasting.load_dataframe(data_path)
+    series = forecasting.load_clean_series(dataframe, commodity, market, unit="100 KG")
+    if len(series) < 30:
+        raise ValueError("Not enough data to forecast for the specified commodity and market.")
+
+    forecast = forecasting.forecast_next_month(series)
+    metrics = forecasting.evaluate_forecast(series)
+    return {
+        "commodity": commodity,
+        "market": market,
+        "history": [{"date": str(date.date()), "price": round(price, 2)} for date, price in series.items()],
+        "forecasted_price": round(forecast, 2),
+        "metrics": metrics,
+    }
+
+
 @app.get("/forecast")
 def get_forecast(commodity: str = "Maize (white)", market: str = "Ibadan"):
     # Lazy import to avoid heavy import-time dependencies (pandas/statsmodels)
     try:
-        forecasting = importlib.import_module("backend.src.forecasting")
-    except Exception as e:
-        raise HTTPException(status_code=501, detail=f"Forecasting module unavailable: {e}")
-
-    try:
-        # try to load sample dataframe from data folder if available
-        BASE_DIR = Path(__file__).resolve().parent
-        df_path = BASE_DIR / "data" / "wfp_food_prices_nga.csv"
-        df = forecasting.load_dataframe(df_path)
-        series = forecasting.load_clean_series(df, commodity, market, unit="100 KG")
-        if len(series) < 30:
-            raise HTTPException(status_code=404, detail="Not enough data to forecast for the specified commodity and market.")
-        forecast = forecasting.forecast_next_month(series)
-        metrics = forecasting.evaluate_forecast(series)
-        return {
-            "commodity": commodity,
-            "market": market,
-            "history": [{"date": str(d.date()), "price": round(p, 2)} for d, p in series.items()],
-            "forecasted_price": round(forecast, 2),
-            "metrics": metrics,
-        }
+        return _calculate_forecast(commodity, market)
     except HTTPException:
         raise
     except Exception as e:

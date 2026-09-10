@@ -1,32 +1,13 @@
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
 from sklearn.metrics import mean_absolute_percentage_error, r2_score
 from statsmodels.tsa.arima.model import ARIMA
 
 
-def _sample_dataframe():
-    dates = pd.date_range(end=pd.Timestamp.today().normalize(), periods=48, freq="ME")
-    rows = []
-    markets = {"Ibadan": 26000.0, "Lagos": 24500.0, "Dawanau": 22236.13}
-    for market, base_price in markets.items():
-        for index, date in enumerate(dates):
-            rows.append(
-                {
-                    "date": date,
-                    "commodity": "Maize (white)",
-                    "market": market,
-                    "unit": "100 KG",
-                    "price": base_price + index * 125 + 350 * np.sin(index / 3),
-                }
-            )
-    return pd.DataFrame(rows)
-
-
 def load_dataframe(path: Path):
     if not path.exists():
-        return _sample_dataframe()
+        raise FileNotFoundError(f"Source dataset not found: {path}")
 
     dataframe = pd.read_csv(path, skiprows=[1])
     dataframe["date"] = pd.to_datetime(dataframe["date"], errors="coerce")
