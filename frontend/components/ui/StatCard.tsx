@@ -8,7 +8,7 @@ interface StatCardProps {
 
 export default function StatCard({ label, value, sublabel }: StatCardProps) {
   return (
-    <div className="bg-gradient-to-br from-green-700 to-green-900  rounded-lg shadow-lg p-6 flex-1 hover:shadow-xl transition-shadow duration-300 group">
+    <div className="bg-linear-to-br from-green-700 to-green-900 rounded-lg shadow-lg p-6 flex-1 hover:shadow-xl transition-shadow duration-300 group">
       <div className="flex items-start justify-between mb-4">
         <p className="text-xs uppercase text-white tracking-widest text-muted font-semibold">
           {label}

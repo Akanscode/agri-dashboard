@@ -66,28 +66,28 @@ export default function About() {
           
           <ul className="space-y-3">
             <li className="flex gap-3 items-start">
-              <span className="text-accent text-xl flex-shrink-0">✓</span>
+              <span className="text-accent text-xl shrink-0">✓</span>
               <div>
                 <span className="font-semibold text-navy">Real-time Price Data</span>
                 <p className="text-sm text-muted">Updated monthly with WFP market prices</p>
               </div>
             </li>
             <li className="flex gap-3 items-start">
-              <span className="text-accent text-xl flex-shrink-0">✓</span>
+              <span className="text-accent text-xl shrink-0">✓</span>
               <div>
                 <span className="font-semibold text-navy">Predictive Forecasts</span>
                 <p className="text-sm text-muted">12-month price projections with accuracy metrics</p>
               </div>
             </li>
             <li className="flex gap-3 items-start">
-              <span className="text-accent text-xl flex-shrink-0">✓</span>
+              <span className="text-accent text-xl shrink-0">✓</span>
               <div>
                 <span className="font-semibold text-navy">Optimization Engine</span>
                 <p className="text-sm text-muted">Algorithmic supply allocation for maximum returns</p>
               </div>
             </li>
             <li className="flex gap-3 items-start">
-              <span className="text-accent text-xl flex-shrink-0">✓</span>
+              <span className="text-accent text-xl shrink-0">✓</span>
               <div>
                 <span className="font-semibold text-navy">Multi-Market Analysis</span>
                 <p className="text-sm text-muted">Compare commodities and markets across Nigeria</p>

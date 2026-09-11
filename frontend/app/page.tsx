@@ -56,7 +56,7 @@ function DashboardContent({
                   Dashboard
                 </h1>
                 <p className="text-parchment/80 text-lg">
-                  Real-time agricultural price forecasting and optimization
+                  Data-driven agricultural price forecasting and decision support
                 </p>
               </div>
               <div className="text-right text-parchment/70">
