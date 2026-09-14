@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className="font-sans bg-parchment text-ink">
         <Sidebar />
-        <main className="ml-64 flex-1">
+        <main className="flex-1 md:ml-64">
           {children}
         </main>
       </body>
