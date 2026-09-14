@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Metadata } from "next";
+import { ArrowRight, CircleHelp } from "lucide-react";
 
 const API_BASE = (process.env.NEXT_PUBLIC_API_URL || "https://agri-dashboard-3ijl.onrender.com").replace(/\/$/, "");
 
@@ -71,7 +72,7 @@ export default async function MarketsPage() {
                     <h3 className="font-serif text-xl font-bold text-navy group-hover:text-accent transition-colors">
                       {m}
                     </h3>
-                    <span className="text-2xl group-hover:translate-x-1 transition-transform">→</span>
+                    <ArrowRight aria-hidden="true" className="size-5 text-accent transition-transform group-hover:translate-x-1" />
                   </div>
                   <p className="text-sm text-muted leading-relaxed">
                     View forecast and price history
@@ -89,13 +90,13 @@ export default async function MarketsPage() {
         <section className="mt-12 pt-8 border-t border-border">
           <div className="bg-cream border border-border rounded-lg p-8">
             <h3 className="font-serif text-lg font-bold text-navy mb-3 flex items-center gap-2">
-              <span>💡</span> How to Use
+              <CircleHelp aria-hidden="true" className="size-5 text-accent" /> How to Use
             </h3>
             <p className="text-muted mb-3">
               Click on any market to view detailed price forecasts and historical trends for the selected location. The dashboard will show the current price, next month&apos;s forecast, and model accuracy metrics.
             </p>
             <p className="text-sm text-muted/70">
-              All forecasts are generated using ARIMA time-series models trained on historical WFP price data.
+              All next-month forecasts are generated using ARIMA time-series models trained on historical WFP price data.
             </p>
           </div>
         </section>

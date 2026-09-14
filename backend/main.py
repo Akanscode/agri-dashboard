@@ -1,9 +1,15 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
 import importlib
 import os
 from functools import lru_cache
+
+
+DEFAULT_COMMODITY = "Maize (white)"
+ALLOCATION_MARKETS = ("Ibadan", "Lagos", "Dawanau")
+TRANSPORT_COST = {"Ibadan": 800, "Lagos": 2100, "Dawanau": 1500}
+MARKET_CAPACITY = {"Ibadan": 40, "Lagos": 35, "Dawanau": 50}
 
 
 app = FastAPI(title="Nigeria Agri Forecasting API (light)")
@@ -20,9 +26,14 @@ app.add_middleware(
 )
 
 
-@app.get("/")
+@app.get("/", tags=["system"])
 def root():
     return {"message": "Welcome to the Nigeria Agri Forecasting API (light)"}
+
+
+@app.get("/health", tags=["system"])
+def health():
+    return {"status": "ok"}
 
 
 @lru_cache(maxsize=32)
@@ -32,6 +43,8 @@ def _calculate_forecast(commodity: str, market: str):
     data_path = base_dir / "data" / "wfp_food_prices_nga.csv"
     dataframe = forecasting.load_dataframe(data_path)
     series = forecasting.load_clean_series(dataframe, commodity, market, unit="100 KG")
+    if series.empty:
+        raise LookupError(f"No price data found for commodity '{commodity}' in market '{market}'.")
     if len(series) < 30:
         raise ValueError("Not enough data to forecast for the specified commodity and market.")
 
@@ -46,32 +59,46 @@ def _calculate_forecast(commodity: str, market: str):
     }
 
 
-@app.get("/forecast")
-def get_forecast(commodity: str = "Maize (white)", market: str = "Ibadan"):
+@app.get("/forecast", tags=["forecasting"])
+def get_forecast(commodity: str = DEFAULT_COMMODITY, market: str = "Ibadan"):
     # Lazy import to avoid heavy import-time dependencies (pandas/statsmodels)
     try:
         return _calculate_forecast(commodity, market)
     except HTTPException:
         raise
+    except LookupError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except ValueError as e:
+        raise HTTPException(status_code=422, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/allocate")
-def get_allocation():
+@app.get("/allocate", tags=["optimization"])
+def get_allocation(
+    commodity: str = DEFAULT_COMMODITY,
+    supply_units: float = Query(default=100.0, gt=0),
+):
     # Lazy import optimization module
     try:
         optimization = importlib.import_module("backend.src.optimization")
     except Exception as e:
         raise HTTPException(status_code=501, detail=f"Optimization module unavailable: {e}")
 
-    forecasted_prices = {"Ibadan": 26000.0, "Lagos": 24500.0, "Dawanau": 22236.13}
-    transport_cost = {"Ibadan": 800, "Lagos": 2100, "Dawanau": 1500}
-    market_capacity = {"Ibadan": 40, "Lagos": 35, "Dawanau": 50}
-    return optimization.optimize_allocation(forecasted_prices, transport_cost, market_capacity, supply_units=100)
+    market_names = ALLOCATION_MARKETS
+    try:
+        forecasted_prices = {
+            market: _calculate_forecast(commodity, market)["forecasted_price"] for market in market_names
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Unable to forecast prices for allocation: {e}")
+
+    return optimization.optimize_allocation(
+        forecasted_prices, TRANSPORT_COST, MARKET_CAPACITY, supply_units=supply_units
+    )
 
 
-@app.get("/commodities")
+@app.get("/commodities", tags=["metadata"])
 def get_commodities():
     # Attempt to read commodity list from data if available
     try:
@@ -80,17 +107,17 @@ def get_commodities():
         df_path = BASE_DIR / "data" / "wfp_food_prices_nga.csv"
         df = forecasting.load_dataframe(df_path)
         return sorted(df["commodity"].unique().tolist())
-    except Exception:
-        return []
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Unable to load commodities: {e}")
 
 
-@app.get("/markets")
-def get_markets(commodity: str = "Maize"):
+@app.get("/markets", tags=["metadata"])
+def get_markets(commodity: str = DEFAULT_COMMODITY):
     try:
         forecasting = importlib.import_module("backend.src.forecasting")
         BASE_DIR = Path(__file__).resolve().parent
         df_path = BASE_DIR / "data" / "wfp_food_prices_nga.csv"
         df = forecasting.load_dataframe(df_path)
         return sorted(df[df["commodity"] == commodity]["market"].unique().tolist())
-    except Exception:
-        return []
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Unable to load markets: {e}")

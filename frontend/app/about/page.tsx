@@ -1,4 +1,5 @@
 import React from 'react'
+import { AlertTriangle, Check, Database, Target } from 'lucide-react'
 
 export default function About() {
   return (
@@ -42,7 +43,7 @@ export default function About() {
 
             <div>
               <h3 className="text-lg font-semibold text-black mb-2 flex items-center gap-2">
-                <span className="text-accent">🎯</span> Supply Optimization
+                <Target aria-hidden="true" className="size-5 text-accent" /> Supply Optimization
               </h3>
               <p className="text-ink text-sm leading-relaxed ml-6">
                 Linear programming optimization solves the allocation problem: given limited supply, how do we distribute it across markets to maximize total net value? The algorithm accounts for market-specific prices and transport costs to recommend optimal allocations.
@@ -51,7 +52,7 @@ export default function About() {
 
             <div>
               <h3 className="text-lg font-semibold text-black mb-2 flex items-center gap-2">
-                <span className="text-accent">🔍</span> Data Quality
+                <Database aria-hidden="true" className="size-5 text-accent" /> Data Quality
               </h3>
               <p className="text-ink text-sm leading-relaxed ml-6">
                 All data is sourced from the World Food Programmes Food Prices Database, which provides comprehensive coverage of agricultural markets across Nigeria. Data is validated and cleaned before analysis to ensure accuracy and consistency.
@@ -66,28 +67,28 @@ export default function About() {
           
           <ul className="space-y-3">
             <li className="flex gap-3 items-start">
-              <span className="text-accent text-xl shrink-0">✓</span>
+              <Check aria-hidden="true" className="size-5 shrink-0 text-accent" />
               <div>
                 <span className="font-semibold text-navy">Real-time Price Data</span>
                 <p className="text-sm text-muted">Updated monthly with WFP market prices</p>
               </div>
             </li>
             <li className="flex gap-3 items-start">
-              <span className="text-accent text-xl shrink-0">✓</span>
+              <Check aria-hidden="true" className="size-5 shrink-0 text-accent" />
               <div>
                 <span className="font-semibold text-navy">Predictive Forecasts</span>
                 <p className="text-sm text-muted">12-month price projections with accuracy metrics</p>
               </div>
             </li>
             <li className="flex gap-3 items-start">
-              <span className="text-accent text-xl shrink-0">✓</span>
+              <Check aria-hidden="true" className="size-5 shrink-0 text-accent" />
               <div>
                 <span className="font-semibold text-navy">Optimization Engine</span>
                 <p className="text-sm text-muted">Algorithmic supply allocation for maximum returns</p>
               </div>
             </li>
             <li className="flex gap-3 items-start">
-              <span className="text-accent text-xl shrink-0">✓</span>
+              <Check aria-hidden="true" className="size-5 shrink-0 text-accent" />
               <div>
                 <span className="font-semibold text-navy">Multi-Market Analysis</span>
                 <p className="text-sm text-muted">Compare commodities and markets across Nigeria</p>
@@ -152,7 +153,7 @@ export default function About() {
         {/* Disclaimer Section */}
         <section className="bg-accent/10 border border-accent/20 rounded-lg p-8">
           <h2 className="font-serif text-lg font-bold text-navy mb-3 flex items-center gap-2">
-            <span>⚠️</span> Disclaimer
+            <AlertTriangle aria-hidden="true" className="size-5 text-accent" /> Disclaimer
           </h2>
           <p className="text-sm text-ink leading-relaxed">
             This dashboard is provided for informational and research purposes only. Forecasts are based on historical data and statistical models, which may not capture all market factors. Users should conduct their own due diligence and consult domain experts before making financial or supply chain decisions based on our projections. Neither the WFP nor this project assumes liability for decisions made using this tool.

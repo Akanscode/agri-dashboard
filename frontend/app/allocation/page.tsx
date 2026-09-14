@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { getAllocation } from "@/app/lib/api/api";
+import { BarChart3 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -123,7 +124,7 @@ export default async function AllocationPage() {
         <section className="mt-12 pt-8 border-t border-border">
           <div className="bg-cream border border-border rounded-lg p-8">
             <h3 className="font-serif text-lg font-bold text-navy mb-3 flex items-center gap-2">
-              <span>📊</span> About This Optimization
+              <BarChart3 aria-hidden="true" className="size-5 text-accent" /> About This Optimization
             </h3>
             <p className="text-muted mb-3">
               This allocation is generated using linear programming (scipy.optimize.linprog) to solve the optimization problem: given a fixed supply budget, how do we distribute units across markets to maximize total net value?
